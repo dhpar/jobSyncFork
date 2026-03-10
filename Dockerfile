@@ -1,4 +1,5 @@
-FROM node:20.18.0-alpine AS base
+# use the latest Node 20 Alpine image to pull in security patches
+FROM node:20-alpine AS base
 
 # Install dependencies only when needed
 FROM base AS deps

@@ -80,6 +80,14 @@ export function AutomationContainer({ resumes }: AutomationContainerProps) {
               <Plus className="h-4 w-4 mr-2" />
               Create Automation
             </Button>
+            <Button
+              variant="outline"
+              onClick={() => setWizardOpen(true)}
+              disabled={resumes.length === 0}
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              Run Automation
+            </Button>
           </div>
         </CardHeader>
         <CardContent>

@@ -18,28 +18,37 @@ export async function signup(formData: {
   }
 
   const { name, email, password } = parsed.data;
-
+  const hasUser = await prisma.user;
+  if (!hasUser) {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await prisma.user.create({
+      data: { name, email, password: hashedPassword },
+    });
+  }
   const existingUser = await prisma.user.findUnique({
     where: { email },
   });
 
   if (existingUser) {
     return { error: "An account with this email already exists." };
+  } else {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = await prisma.user.create({
+      data: { name, email, password: hashedPassword },
+    }).then(
+          resp => {
+            console.log("User created:", resp); 
+            return resp;
+          });
+    await prisma.jobSource.createMany({
+      data: JOB_SOURCES.map((source) => ({
+        label: source.label,
+        value: source.value,
+        createdBy: newUser.id,
+      })),
+    });
   }
 
-  const hashedPassword = await bcrypt.hash(password, 10);
-
-  const newUser = await prisma.user.create({
-    data: { name, email, password: hashedPassword },
-  });
-
-  await prisma.jobSource.createMany({
-    data: JOB_SOURCES.map((source) => ({
-      label: source.label,
-      value: source.value,
-      createdBy: newUser.id,
-    })),
-  });
 
   for (const status of JOB_STATUSES) {
     await prisma.jobStatus.upsert({

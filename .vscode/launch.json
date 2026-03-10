@@ -5,25 +5,32 @@
       "name": "Next.js: debug server-side",
       "type": "node-terminal",
       "request": "launch",
-      "command": "npm run dev"
+      "command": "next dev --inspect=0.0.0.0",
+      "sourceMaps": true
     },
     {
       "name": "Next.js: debug client-side",
       "type": "chrome",
       "request": "launch",
-      "url": "http://localhost:3000/dashboard"
+      "url": "http://localhost:3000/dashboard",
+      "sourceMaps": true
     },
     {
       "name": "Next.js: debug full stack",
       "type": "node-terminal",
       "request": "launch",
       "command": "npm run dev",
+      "sourceMaps": true,
       "serverReadyAction": {
         "pattern": "- Local:.+(https?://.+)",
         "uriFormat": "%s",
-        "action": "debugWithChrome"
+        "action": "debugWithChrome",
+        "webRoot": "${workspaceFolder}"
       },
-      "resolveSourceMapLocations": ["${workspaceFolder}/", "!/node_modules/**"]
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/", 
+        "!/node_modules/**"
+      ]
     }
   ]
 }
