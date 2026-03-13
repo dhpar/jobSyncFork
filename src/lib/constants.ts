@@ -7,6 +7,7 @@ import {
   Sheet,
   Wrench,
   Zap,
+  SearchCode,
 } from "lucide-react";
 
 export const APP_CONSTANTS = {
@@ -59,6 +60,11 @@ export const SIDEBAR_LINKS = [
     icon: Zap,
     route: "/dashboard/automations",
     label: "Automations",
+  },
+  {
+    icon: SearchCode,    
+    route: "/dashboard/automations/new",
+    label: "Find jons for me",
   },
   {
     icon: SquareCheckBig,
